@@ -62,11 +62,13 @@ public class TextHandler {
 
     // #2
     public void replaceCharAWithOAfterP(final List<String> words) {
-        // TODO write method implementation
-        // in the loop for every single word:
-        // 1. find all chars after 'P'
-        // 2. in the inner loop: if char == 'A' replace it with 'O'
-        // Achtung! make sure that words in the list are really changed (e.g.: as in replaceChar() method)
+        final List<String> changedWords = new ArrayList<>();
+        for (final String word : words) {
+            final String changedWord = word.replaceAll("Pa", "Po").replaceAll("pa", "po");
+            changedWords.add(changedWord);
+        }
+        words.clear();
+        words.addAll(changedWords);
     }
 
     // #3
