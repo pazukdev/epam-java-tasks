@@ -1,6 +1,8 @@
 package com.pazukdev;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Main {
 
@@ -47,6 +49,22 @@ public class Main {
         );
 
         System.out.println(handledText + " (all)");
+
+        // #6
+        System.out.println(textHandler.translateTextUsingDictionary(text, getDictionary()));
+    }
+
+    // #6
+    private static Map<String, String> getDictionary() {
+        final Map<String, String> dictionary = new HashMap<>();
+        dictionary.put("axe", "топор");
+        dictionary.put("metal axe", "металлический топор");
+        dictionary.put("my", "мой");
+        dictionary.put("shiny metal axe!", "сияющий металлический топор!");
+        dictionary.put("And", "и");
+        dictionary.put("don't", "ниннада!");
+        dictionary.put("And don't forget about my", "И не забудь про мой");
+        return dictionary;
     }
 
 }

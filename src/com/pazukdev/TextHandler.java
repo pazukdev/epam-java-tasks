@@ -1,8 +1,6 @@
 package com.pazukdev;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Siarhei Sviarkaltsau
@@ -92,6 +90,33 @@ public class TextHandler {
         return text;
     }
 
+    // #6
+    // translate text
+    // e.g:
+    // dictionary: a : 0; c c : 2 2; d d d : 3 3 3
+    // text:   a a b b c c d d d e
+    // result: 0 0 b b 2 2 3 3 3 e
+    public String translateTextUsingDictionary(String text, final Map<String, String> dictionary) {
+        final Map<String, String> map = new HashMap<>();
+        int i = 0;
+        final String s = "#";
+        for (final List<String> subList : getAllSubListsSortedBySize(splitIntoWords(text))) {
+            final String toTranslate = wordsIntoText(subList);
+            final String translated = translateWord(toTranslate, dictionary);
+            if (translated != null) {
+                final String key = s + i++;
+                final String value = translated;
+                text = text.replace(toTranslate, key);
+                map.put(key, value);
+            }
+        }
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            text = text.replace(entry.getKey(), entry.getValue());
+        }
+
+        return text;
+    }
+
     // private methods
 
     // #1
@@ -101,6 +126,29 @@ public class TextHandler {
         final StringBuilder changedWord = new StringBuilder(word);
         changedWord.setCharAt(indexOfCharToReplace, replacer);
         return changedWord.toString();
+    }
+
+    // #6
+    private List<List<String>> getAllSubListsSortedBySize(final List<String> words) {
+        final List<String> subArraysAsStrings = new ArrayList<>();
+        for ( int i = 0; i < words.size(); i++) {
+            String s = "";
+            for (int j = i; j < words.size(); j++) {
+                s += words.get(j) + " ";
+                subArraysAsStrings.add(s.trim());
+            }
+        }
+        final List<List<String>> subArrays = new ArrayList<>();
+        for (final String subArrayAsString : subArraysAsStrings) {
+            subArrays.add(Arrays.asList(subArrayAsString.split(SEPARATOR)));
+        }
+        subArrays.sort(Comparator.comparing(List::size, Comparator.reverseOrder()));
+        return subArrays;
+    }
+
+    // #6
+    private String translateWord(final String word, final Map<String, String> dictionary) {
+        return dictionary.get(word);
     }
 
 }
